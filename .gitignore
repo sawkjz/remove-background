@@ -15,3 +15,9 @@ Thumbs.db
 
 # outputs
 *_no_background.png
+
+# build artifacts
+build/
+dist/
+*.spec
+*.exe

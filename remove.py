@@ -5,7 +5,7 @@ from pathlib import Path
 from rembg import new_session, remove
 
 EXTS = (".png", ".jpg", ".jpeg", ".webp")
-EXIT_WORDS = {"sair", "exit", "q"}
+EXIT_WORDS = {"sair", "exit", "clear"}
 
 
 def eh_imagem(p: Path) -> bool:
