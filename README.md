@@ -40,3 +40,37 @@ Then enter:
 - Only the file name to search in your `Downloads` folder.
 
 The output image is saved in the same folder with the suffix `_no_background.png`.
+
+You can also run with the image path directly:
+
+```bash
+py remove.py "C:\Users\YourUser\Downloads\photo.jpg"
+```
+
+## Build .exe (Windows)
+Install PyInstaller:
+
+```bash
+py -m pip install pyinstaller
+```
+
+Generate an executable that opens in terminal (CMD/PowerShell):
+
+```bash
+py -m PyInstaller --onefile --console --name background_remover remove.py
+```
+
+The `.exe` will be created at:
+- `dist\background_remover.exe`
+
+When executed, it opens a terminal interface where the user can:
+- Drag and drop an image file, or
+- Type the file name/path manually.
+
+## How Background Removal Works
+This project uses `rembg` with the `u2net` model, which performs **AI foreground segmentation**.
+
+Important:
+- It does **not** remove only dark colors.
+- It predicts the subject/object mask and removes background of **any color**.
+- `alpha matting` is enabled in the script to improve edge quality (hair, soft borders, and semi-transparent details).
