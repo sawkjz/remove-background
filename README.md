@@ -47,6 +47,18 @@ You can also run with the image path directly:
 py remove.py "C:\Users\YourUser\Downloads\photo.jpg"
 ```
 
+Use faster/default mode:
+
+```bash
+py remove.py --model u2netp --quality fast
+```
+
+Use higher quality edges (slower):
+
+```bash
+py remove.py --model u2net --quality high
+```
+
 ## Build .exe (Windows)
 Install PyInstaller:
 
@@ -54,18 +66,35 @@ Install PyInstaller:
 py -m pip install pyinstaller
 ```
 
-Generate an executable that opens in terminal (CMD/PowerShell):
+### Option A (recommended): faster startup and smaller executable file (`onedir`)
+This creates a folder distribution. The main `.exe` is smaller and opens faster.
 
 ```bash
-py -m PyInstaller --onefile --console --name background_remover remove.py
+py -m PyInstaller --clean --onedir --console --name background_remover --icon assets/icon.ico --copy-metadata rembg --copy-metadata pymatting --exclude-module matplotlib --exclude-module scipy --exclude-module pandas --exclude-module IPython remove.py
 ```
 
-The `.exe` will be created at:
+Output:
+- `dist\background_remover\background_remover.exe`
+
+### Option B: single file (`onefile`)
+More portable (single file), but usually heavier and slower to start.
+
+```bash
+py -m PyInstaller --clean --onefile --console --name background_remover --icon assets/icon.ico --copy-metadata rembg --copy-metadata pymatting remove.py
+```
+
+Output:
 - `dist\background_remover.exe`
 
 When executed, it opens a terminal interface where the user can:
 - Drag and drop an image file, or
 - Type the file name/path manually.
+
+### Performance tips
+- Default model is now `u2netp` (faster startup and processing).
+- Use default mode `--quality fast` for speed.
+- Use `--quality high` only when you need better edge refinement.
+- First run may still be slower due to model/cache initialization.
 
 ## How Background Removal Works
 This project uses `rembg` with the `u2net` model, which performs **AI foreground segmentation**.
