@@ -40,7 +40,7 @@ def line(ch="═") -> str:
 
 
 def header(model_name: str, quality: str) -> None:
-    bow = "╭──────────.★..─╮"
+    bow = "𖹭"
     print(line())
     print(bow.center(w()))
     print("@sawkjz".rjust(w()))
