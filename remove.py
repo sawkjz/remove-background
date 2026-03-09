@@ -56,11 +56,9 @@ def header(model_name: str, quality: str) -> None:
     print("⊹")
     print(line())
     print("Background Remover")
-    print("Drag and drop your image here or type the file name.")
     print("Supported: .png .jpg .jpeg .webp")
-    print(f"Mode: model={model_name} quality={quality}")
-    print("Commands: clear (clean screen), exit/quit (close)")
-    print(line())
+    print("Commands: clear (clean screen), exit (close)\n")
+    print("Drag and drop your image here or type the file name.")
 
 
 def clear_screen() -> None:
