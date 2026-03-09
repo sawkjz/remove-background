@@ -10,7 +10,13 @@ EXTS = (".png", ".jpg", ".jpeg", ".webp")
 EXIT_WORDS = {"exit", "quit"}
 SESSION_CACHE: Dict[str, object] = {}
 
-CLOSING_ART = Path(__file__).with_name("closing_art.txt").read_text(encoding="utf-8")
+
+def read_closing_art() -> str:
+    base_dir = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+    return (base_dir / "closing_art.txt").read_text(encoding="utf-8")
+
+
+CLOSING_ART = read_closing_art()
 
 
 def console_utf8() -> None:
