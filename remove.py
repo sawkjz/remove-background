@@ -153,16 +153,36 @@ def closing() -> None:
     print("\nClosing...")
 
 
+def cli_args() -> list[str]:
+    return [arg for arg in sys.argv[1:] if arg.strip()]
+
+
+def run_arg_mode(args: list[str], model_name: str, quality: str) -> int:
+    status = 0
+    for arg in args:
+        status = process_file(arg, model_name, quality) or status
+    return status
+
+
 def main() -> int:
     console_utf8()
 
     model_name = "u2netp"
     quality = "fast"
 
+    args = cli_args()
+    if args:
+        return run_arg_mode(args, model_name, quality)
+
     header(model_name, quality)
 
     while True:
-        s = input("\nImage file/path: ").strip()
+        try:
+            s = input("\nImage file/path: ").strip()
+        except EOFError:
+            print("\nInput stream closed.")
+            return 0
+
         if not s:
             continue
 
@@ -190,5 +210,8 @@ if __name__ == "__main__":
         print("\nUnexpected error:", exc)
         traceback.print_exc()
         if sys.stdin and sys.stdin.isatty():
-            input("\nPress Enter to close...")
+            try:
+                input("\nPress Enter to close...")
+            except EOFError:
+                pass
         raise SystemExit(1)

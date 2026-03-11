@@ -47,17 +47,9 @@ You can also run with the image path directly:
 py remove.py "C:\Users\YourUser\Downloads\photo.jpg"
 ```
 
-Use faster/default mode:
-
-```bash
-py remove.py --model u2netp --quality fast
-```
-
-Use higher quality edges (slower):
-
-```bash
-py remove.py --model u2net --quality high
-```
+The current script uses:
+- model `u2netp`
+- quality profile `fast`
 
 ## Build .exe (Windows)
 Install PyInstaller:
@@ -76,6 +68,10 @@ py -m PyInstaller --clean --onedir --console --name background_remover --icon as
 Output:
 - `dist\background_remover\background_remover.exe`
 
+Important:
+- In `onedir`, the `.exe` is not standalone. You must distribute the entire `dist\background_remover\` folder.
+- If someone downloads only the ~11 MB `.exe`, it may just open and close because `_internal\` and other files are missing.
+
 ### Option B: single file (`onefile`)
 More portable (single file), but usually heavier and slower to start.
 
@@ -85,6 +81,22 @@ py -m PyInstaller --clean --onefile --console --name background_remover --icon a
 
 Output:
 - `dist\background_remover.exe`
+
+### SmartScreen / "Run anyway" warning
+If you distribute an unsigned `.exe`, Windows SmartScreen may still show "Run anyway" even when the app is harmless.
+
+That warning is mainly based on:
+- missing code signing certificate
+- low reputation for a new binary
+- packaging patterns that antivirus tools consider suspicious
+
+This repository disables `UPX` compression in the PyInstaller spec because compressed executables are more likely to trigger heuristic suspicion, but that alone does not remove the SmartScreen warning.
+
+To reduce the warning in real releases:
+- sign the executable with an Authenticode certificate
+- keep a stable app name and publisher
+- distribute a `.zip` containing the full `onedir` folder, not only the `.exe`
+- avoid rebuilding unnecessarily if the release did not change
 
 When executed, it opens a terminal interface where the user can:
 - Drag and drop an image file, or
